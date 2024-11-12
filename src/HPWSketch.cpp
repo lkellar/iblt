@@ -14,7 +14,7 @@
 #include <unordered_set>
 #include <optional>
 
-HPWSketch::HPWSketch(size_t sketch_size, size_t hash_count) : hasher(MultiHash(sketch_size, hash_count)) {
+HPWSketch::HPWSketch(size_t sketch_size, const MultiHash& hasher) : hasher(hasher) {
     this->sketch = std::vector<int>(sketch_size, 0);
 }
 

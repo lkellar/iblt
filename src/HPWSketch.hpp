@@ -17,7 +17,7 @@
 
 class HPWSketch {
 public:
-    HPWSketch(size_t size, size_t hash_count);
+    HPWSketch(size_t size, const MultiHash& hasher);
     void toggle(int x);
     void merge(const HPWSketch& other);
     std::optional<std::unordered_set<int>> decode();
@@ -25,7 +25,7 @@ private:
     bool looksPure(size_t index);
     int findNextPureIndex(int lastPureIndex);
     std::vector<int> sketch;
-    MultiHash hasher;
+    const MultiHash& hasher;
 };
 
 #endif /* HPWSketch_hpp */
