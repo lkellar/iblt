@@ -59,6 +59,7 @@ int HPWSketch::findNextPureIndex(int lastPureIndex = -1) {
 std::optional<std::unordered_set<int>> HPWSketch::decode() {
     std::unordered_set<int> result;
     std::deque<size_t> pureIndexes;
+    int iterations = 0;
     for (size_t i = 0; i < this->sketch.size(); i++) {
         if (this->looksPure(i)) {
             pureIndexes.push_back(i);
@@ -88,14 +89,11 @@ std::optional<std::unordered_set<int>> HPWSketch::decode() {
         }
         pureIndexes.pop_front();
         
-        // sanity check, probably can remove
-        if (pureIndexes.empty()) {
-            for (size_t i = 0; i < this->sketch.size(); i++) {
-                if (this->looksPure(i)) {
-                    pureIndexes.push_back(i);
-                }
-            }
+        // If we're in an probably infinite loop, just fail
+        if (iterations == this->sketch.size() * 3) {
+            return std::nullopt;
         }
+        iterations++;
     }
     
     // we're finished decoding but 1s still remain, decoding failed
