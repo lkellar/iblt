@@ -38,7 +38,7 @@ class OriginalSketch {
 public:
     OriginalSketch(size_t sketch_size, const MultiHash& hasher);
     void insert(int key, int value);
-    std::unordered_set<int> remove(int key, int value);
+    std::vector<int> remove(int key, int value);
     // merge must use same hash funcitions probably
     //void merge(const OriginalSketch& other);
     std::expected<int, OriginalGetError> get(int x);
@@ -51,7 +51,7 @@ public:
         }
     }
 private:
-    std::unordered_set<int> hash_distinct(int key);
+    std::vector<int> hash_distinct(int key);
     std::vector<OriginalCell> sketch;
     const MultiHash& hasher;
 };
