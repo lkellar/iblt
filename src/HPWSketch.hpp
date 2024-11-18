@@ -17,7 +17,7 @@
 
 class HPWSketch {
 public:
-    HPWSketch(size_t size, const MultiHash& hasher);
+    HPWSketch(size_t sketch_size, const MultiHash& hasher);
     void toggle(int x);
     void merge(const HPWSketch& other);
     std::optional<std::unordered_set<int>> decode();

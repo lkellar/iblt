@@ -11,8 +11,6 @@
 #include <stdexcept>
 #include <algorithm>
 #include <deque>
-#include <unordered_set>
-#include <optional>
 
 HPWSketch::HPWSketch(size_t sketch_size, const MultiHash& hasher) : hasher(hasher) {
     this->sketch = std::vector<int>(sketch_size, 0);
