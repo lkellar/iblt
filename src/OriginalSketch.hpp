@@ -45,11 +45,6 @@ public:
     // returns a list and an "incomplete" flag
     // this is desctructive
     std::pair<std::unordered_map<int, int>, bool> decode();
-    void printSketch() {
-        for (auto cell : this->sketch) {
-            std::cout << "Count: " << cell.count << " | KeySum: " << cell.keySum << " | ValueSum: " << cell.valueSum << '\n';
-        }
-    }
 private:
     std::vector<int> hash_distinct(int key);
     std::vector<OriginalCell> sketch;

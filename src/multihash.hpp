@@ -12,7 +12,9 @@
 
 class MultiHash {
 public:
+    MultiHash(size_t hash_count): hash_count(hash_count) {}
     virtual std::vector<int> hash(int input) const = 0;
+    const size_t hash_count;
 };
 
 #endif /* multihash_hpp */

@@ -26,7 +26,6 @@ public:
 private:
     std::vector<int> a;
     const int shift;
-    size_t hash_count;
     size_t array_size;
 };
 

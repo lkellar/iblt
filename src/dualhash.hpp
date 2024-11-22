@@ -25,7 +25,6 @@ public:
 private:
     std::vector<int> a;
     std::vector<int> b;
-    size_t hash_count;
     size_t array_size;
 };
 

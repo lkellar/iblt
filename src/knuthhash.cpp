@@ -10,7 +10,7 @@
 #include <random>
 #include <bit>
 
-KnuthHash::KnuthHash(size_t array_size, size_t hash_count): hash_count(hash_count), array_size(array_size), shift(WORD_SIZE - std::countl_zero(array_size)){
+KnuthHash::KnuthHash(size_t array_size, size_t hash_count): MultiHash(hash_count), array_size(array_size), shift(WORD_SIZE - std::countl_zero(array_size)){
     std::mt19937 mt{ std::random_device{}() };
     this->a.reserve(hash_count);
     
