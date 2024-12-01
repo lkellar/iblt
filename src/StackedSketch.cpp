@@ -11,43 +11,40 @@
 #include "knuthhash.hpp"
 #include "dualhash.hpp"
 
-StackedSketch::StackedSketch(int threshold, double error_rate, HashType hashType) : hashType(hashType) {
-    int sketchCount = this->multihashCountNeeded(threshold);
+StackedSketch::StackedSketch(double threshold, double error_rate, HashType hashType) : hashType(hashType) {
+    int sketchCount = std::ceil(std::log2(threshold));
     this->sketches.reserve(sketchCount);
     double tau = C_0 * log2(1/error_rate);
     int logtau = std::ceil(log2(tau));
     int singlerow_count = sketchCount - logtau;
     
+    //std::cout << "SketchCount: " << sketchCount << " - Logtau: " << logtau << " - SIngleRow Count " << singlerow_count << std::endl;
     for (int index = 0; index < singlerow_count; index++) {
         int columns = std::ceil(C * threshold * std::pow(2, -index));
-        this->addNextSketch(1, columns, 1);
+        this->addNextSketch(1, columns);
     }
     
     for (int index = 0; index < logtau; index++) {
         int columns = std::ceil(C * tau * std::pow(2, -index));
         int rows = std::pow(2, index);
         
-        this->addNextSketch(rows, columns, rows);
+        this->addNextSketch(rows, columns);
     }
 }
 
-void StackedSketch::addNextSketch(size_t rows, size_t columns, size_t hash_count) {
+void StackedSketch::addNextSketch(size_t rows, size_t columns) {
+    // # rows = number of hash functions needed
     switch (this->hashType) {
         case HashType::Knuth: {
-            this->sketches.emplace_back(rows, columns, KnuthHash::createHash(columns, hash_count));
+            this->sketches.emplace_back(rows, columns, KnuthHash::createHash(columns, rows));
             return;
         }
         case HashType::Dual: {
-            this->sketches.emplace_back(rows, columns, DualHash::createHash(columns, hash_count));
+            this->sketches.emplace_back(rows, columns, DualHash::createHash(columns, rows));
             return;
         }
     }
 }
-
-int StackedSketch::multihashCountNeeded(int threshold) {
-    return std::ceil(std::log2(static_cast<double>(threshold)));
-}
-
 void StackedSketch::insert(int key, int value) {
     for (BasicSketch& sketch : this->sketches) {
         sketch.insert(key, value);
