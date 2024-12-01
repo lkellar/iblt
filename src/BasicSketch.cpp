@@ -8,8 +8,8 @@
 #include "BasicSketch.hpp"
 #include <stdexcept>
 
-BasicSketch::BasicSketch(size_t rows, size_t columns, const MultiHash& hasher) : hasher(hasher), row_count(rows), column_count(columns) {
-    if (hasher.hash_count != rows) {
+BasicSketch::BasicSketch(size_t rows, size_t columns, std::unique_ptr<MultiHash> hasher) : hasher(std::move(hasher)), row_count(rows), column_count(columns) {
+    if (this->hasher->hash_count != rows) {
         throw std::invalid_argument( "Must have equal number of rows and hash functions" );
     }
     this->keys = std::vector<std::vector<int>>(rows, std::vector<int>(columns, 0));
@@ -18,7 +18,7 @@ BasicSketch::BasicSketch(size_t rows, size_t columns, const MultiHash& hasher) :
 }
 
 void BasicSketch::insert(int key, int value) {
-    std::vector<int> hash_vector = this->hasher.hash(key);
+    std::vector<int> hash_vector = this->hasher->hash(key);
     for (size_t index = 0; index < hash_vector.size(); index++) {
         int hash = hash_vector[index];
         this->keys[index][hash] += key;
@@ -28,7 +28,7 @@ void BasicSketch::insert(int key, int value) {
 }
 
 void BasicSketch::remove(int key, int value) {
-    std::vector<int> hash_vector = this->hasher.hash(key);
+    std::vector<int> hash_vector = this->hasher->hash(key);
     for (size_t index = 0; index < hash_vector.size(); index++) {
         int hash = hash_vector[index];
         this->keys[index][hash] -= key;

@@ -10,6 +10,11 @@
 
 #include <vector>
 
+enum HashType {
+    Knuth,
+    Dual
+};
+
 class MultiHash {
 public:
     MultiHash(size_t hash_count): hash_count(hash_count) {}

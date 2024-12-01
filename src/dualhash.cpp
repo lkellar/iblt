@@ -34,3 +34,8 @@ std::vector<int> DualHash::hash(int input) const {
     
     return result;
 }
+
+
+std::unique_ptr<DualHash> DualHash::createHash(size_t array_size, size_t hash_count) {
+    return std::make_unique<DualHash>(DualHash(array_size, hash_count));
+}

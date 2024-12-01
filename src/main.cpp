@@ -14,6 +14,7 @@
 #include "knuthhash.hpp"
 
 #include "OriginalSketch.hpp"
+#include "StackedSketch.hpp"
 #include <unordered_map>
 
 
@@ -128,16 +129,71 @@ bool test_originalsketch() {
     return true;
 }
 
+bool test_stackedsketch() {
+    const int M = 1000000;
+    const int N = 1000;
+    
+    std::unordered_map<int, int> numbers;
+    numbers.reserve(M);
+    std::vector<int> keys;
+    keys.reserve(M);
+    std::unordered_map<int, int> outliers;
+    outliers.reserve(N);
+    
+    std::random_device dev;
+    std::mt19937 mt{ dev() };
+    std::bernoulli_distribution threshold(static_cast<double>(N)/static_cast<double>(M));
+    std::uniform_int_distribution int_gen(0, M);
+    
+    for (int i = 0; i < M; i++) {
+        int value = int_gen(mt);
+        numbers.insert({i, value});
+        keys.push_back(i);
+        if (threshold(mt)) {
+            outliers.insert({i, value});
+        }
+    }
+    
+    int array_size = static_cast<int>(outliers.size() +3);
+    double error_rate = 0.05;
+    StackedSketch sketch(array_size, error_rate, HashType::Knuth);
+    
+    std::shuffle(keys.begin(), keys.end(), dev);
+    
+    for (int key : keys) {
+        int value = numbers.at(key);
+        sketch.insert(key, value);
+    }
+    
+    std::shuffle(keys.begin(), keys.end(), dev);
+    
+    for (int key : keys) {
+        if (!outliers.contains(key)) {
+            int value = numbers.at(key);
+            sketch.remove(key, value);
+        }
+    }
+    
+    auto out = sketch.decode();
+    // could be interesting to see if it ever succeeds when fail is set to true
+    if (out != outliers) {
+        std::cerr << "Failed - Expected Length: " << outliers.size() << " | Actual Length: " << out.size() << std::endl;
+        return false;
+    }
+    std::cout << "Decode Succeeded - Length: " << outliers.size() << std::endl;
+    return true;
+}
+
 int main(int argc, const char * argv[]) {
     /*DualHash hasher(10, 3);
     OriginalSketch sketch(10, hasher);
     sketch.insert(1, 2);
     sketch.printSketch();
     auto x = sketch.decode();*/
-    const int attempts = 100;
+    const int attempts = 1;
     int success = 0;
     for (int i = 0; i < attempts; i++) {
-        if (test_originalsketch()) {
+        if (test_stackedsketch()) {
             success++;
         }
     }

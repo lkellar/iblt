@@ -6,7 +6,6 @@
 //
 
 #include "knuthhash.hpp"
-
 #include <random>
 #include <bit>
 
@@ -31,4 +30,8 @@ std::vector<int> KnuthHash::hash(int input) const {
     }
     
     return result;
+}
+
+std::unique_ptr<KnuthHash> KnuthHash::createHash(size_t array_size, size_t hash_count) {
+    return std::make_unique<KnuthHash>(KnuthHash(array_size, hash_count));
 }

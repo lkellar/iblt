@@ -16,13 +16,15 @@
 #include <vector>
 #include <limits>
 #include "multihash.hpp"
+#include <memory>
 
-const int WORD_SIZE = std::numeric_limits<int>::digits;
+const int WORD_SIZE = std::numeric_limits<size_t>::digits;
 
 class KnuthHash : public MultiHash {
 public:
     KnuthHash(size_t array_size, size_t hash_count);
     std::vector<int> hash(int input) const;
+    static std::unique_ptr<KnuthHash> createHash(size_t array_size, size_t hash_count);
 private:
     std::vector<int> a;
     const int shift;

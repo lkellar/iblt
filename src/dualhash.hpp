@@ -13,6 +13,7 @@
 #include <cstdio>
 #include <vector>
 #include "multihash.hpp"
+#include <memory>
 
 // TODO just shift instead of the modulo
 // or is it doing that under the hood maybe
@@ -22,6 +23,7 @@ class DualHash : public MultiHash {
 public:
     DualHash(size_t array_size, size_t hash_count);
     std::vector<int> hash(int input) const;
+    static std::unique_ptr<DualHash> createHash(size_t array_size, size_t hash_count);
 private:
     std::vector<int> a;
     std::vector<int> b;
