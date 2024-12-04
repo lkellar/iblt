@@ -18,12 +18,13 @@ StackedSketch::StackedSketch(double threshold, double error_rate, HashType hashT
     int logtau = std::ceil(log2(tau));
     int singlerow_count = sketchCount - logtau;
     
-    //std::cout << "SketchCount: " << sketchCount << " - Logtau: " << logtau << " - SIngleRow Count " << singlerow_count << std::endl;
+    // Single Row Columns
     for (int index = 0; index < singlerow_count; index++) {
         int columns = std::ceil(C * threshold * std::pow(2, -index));
         this->addNextSketch(1, columns);
     }
     
+    // Multirow Columns
     for (int index = 0; index < logtau; index++) {
         int columns = std::ceil(C * tau * std::pow(2, -index));
         int rows = std::pow(2, index);

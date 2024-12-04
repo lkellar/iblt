@@ -23,9 +23,9 @@ public:
 private:
     void addNextSketch(size_t rows, size_t columns);
     const HashType hashType;
-    constexpr static double C = 4/std::numbers::e;
+    constexpr static double C = 4.10/std::numbers::e;
     // fairly large constant
-    constexpr static double C_0 = 10;
+    constexpr static double C_0 = 5;
     std::vector<BasicSketch> sketches;
     std::vector<MultiHash> hashes;
 };
