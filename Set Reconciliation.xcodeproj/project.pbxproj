@@ -20,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		A01D01C02CDD49280044C628 /* Set Reconciliation */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Set Reconciliation"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A04994B32D0019270029FB77 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -44,6 +45,7 @@
 		A01D01B72CDD49280044C628 = {
 			isa = PBXGroup;
 			children = (
+				A04994B32D0019270029FB77 /* README.md */,
 				A01D01C22CDD49280044C628 /* src */,
 				A01D01C12CDD49280044C628 /* Products */,
 			);

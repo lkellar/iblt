@@ -12,7 +12,8 @@
 
 enum HashType {
     Knuth,
-    Dual
+    Dual,
+    Tabular
 };
 
 class MultiHash {

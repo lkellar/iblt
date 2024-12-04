@@ -44,6 +44,9 @@ void StackedSketch::addNextSketch(size_t rows, size_t columns) {
             this->sketches.emplace_back(rows, columns, DualHash::createHash(columns, rows));
             return;
         }
+        case HashType::Tabular: {
+            throw std::invalid_argument( "Tabular hash isn't supported at this time for StackedSketch" );
+        }
     }
 }
 void StackedSketch::insert(int key, int value) {
