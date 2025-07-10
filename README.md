@@ -10,6 +10,8 @@ I can't vouch for the speed or memory usage or performance of any of the data st
 
 However, they both ran decently fast on a modern laptop and probably could be further sped up by locking in a hash function and running it through a profiler.
 
+Some cool visualizations are available in the [Slides](https://lkellar.org/about/kellar_iblt.pdf)
+
 ### Original IBLT
 
 Stores both keys/values and can (usually) answer queries when the number of elements in the structure is below the provided threshold.
