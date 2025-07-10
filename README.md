@@ -1,4 +1,4 @@
-#  Invertible Bloom Lookup Trees
+#  Invertible Bloom Lookup Tables
 
 Implementations of a collection of IBLTs, as well as some hash functions
 
